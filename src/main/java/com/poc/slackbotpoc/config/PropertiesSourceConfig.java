@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @PropertySource(value = {
-        "classpath:properties/application.properties",
-        "classpath:properties/application-${env}.properties"
+        "classpath:application.properties",
+        "classpath:application-${env}.properties"
 })
 @Configuration
 public class PropertiesSourceConfig {

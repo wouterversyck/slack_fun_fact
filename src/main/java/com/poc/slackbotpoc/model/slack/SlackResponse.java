@@ -1,7 +1,7 @@
 package com.poc.slackbotpoc.model.slack;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Data
 public class SlackResponse {
-    @JsonAlias("response_type")
+    @JsonProperty("response_type")
     private String responseType;
     private String text;
-    @JsonAlias("attachments")
+    @JsonProperty("attachments")
     private List<SlackResponseAttachment> slackResponseAttachments;
 
     @JsonIgnore

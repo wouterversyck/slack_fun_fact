@@ -16,6 +16,7 @@ public class WebSecurityConfig {
 
         return http.authorizeExchange()
                 .pathMatchers("/").permitAll()
+                .pathMatchers("/slack/**").permitAll()
                 .anyExchange().authenticated()
                 .and().httpBasic()
                 .and().formLogin().disable().csrf().disable()

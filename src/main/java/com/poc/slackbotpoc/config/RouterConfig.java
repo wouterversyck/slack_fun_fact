@@ -56,6 +56,18 @@ public class RouterConfig {
                             .build()
                     )
                 )
+                .POST("/slack/funfact", e ->
+                        okResponse(SlackResponse.builder()
+                                .withText("test")
+                                .withResponseType(IN_CHANNEL.getResponseType())
+                                .withAttachment(
+                                        SlackResponseAttachment
+                                                .builder()
+                                                .withText("hello").build()
+                                )
+                                .build()
+                        )
+                )
                 .build();
     }
 

@@ -25,6 +25,7 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> funFactRoutes(FunFactHandler funFactHandler) {
         return route()
                 .GET("/funfact/{id}", funFactHandler::get)
+                .GET("/funfact", funFactHandler::getAll)
                 .POST("/funfact", accept(APPLICATION_JSON), funFactHandler::add)
                 .build();
     }

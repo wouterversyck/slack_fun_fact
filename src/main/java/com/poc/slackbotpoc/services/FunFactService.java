@@ -4,6 +4,7 @@ import com.poc.slackbotpoc.model.FunFact;
 import com.poc.slackbotpoc.repositories.FunFactRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -22,4 +23,6 @@ public class FunFactService {
     public Mono<FunFact> get(@NonNull final String id) {
         return repository.findById(id);
     }
+
+    public Flux<FunFact> getAll() { return repository.findAll(); }
 }

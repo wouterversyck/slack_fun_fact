@@ -35,8 +35,11 @@ public class FunFactHandler {
                 .flatMap(funFact -> {
                     Set<ConstraintViolation<FunFact>> errors = validator.validate(funFact);
                     if(errors.isEmpty()) {
-                        funFactService.add(funFact);
-                        return ok().build();
+                        return ok().body(
+                                BodyInserters.fromPublisher(
+                                    funFactService.add(funFact), FunFact.class
+                                )
+                        );
                     }
                     return badRequest().body(
                             BodyInserters.fromObject(
@@ -50,6 +53,14 @@ public class FunFactHandler {
         return funFactService.get(serverRequest.pathVariable("id"))
                 .flatMap(this::toResponse)
                 .switchIfEmpty(notFound().build());
+    }
+
+    public Mono<ServerResponse> getAll(ServerRequest serverRequest) {
+        return ok().body(
+                BodyInserters.fromPublisher(
+                        funFactService.getAll(), FunFact.class
+                )
+        );
     }
 
     private Mono<ServerResponse> toResponse(final FunFact funFact) {

@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.model.slack;
+package be.wouterversyck.slackintegration.model.slack;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

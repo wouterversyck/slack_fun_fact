@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.config;
+package be.wouterversyck.slackintegration.config;
 
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.context.annotation.Configuration;

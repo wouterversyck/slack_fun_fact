@@ -1,6 +1,6 @@
-package com.poc.slackbotpoc.repositories;
+package be.wouterversyck.slackintegration.repositories;
 
-import com.poc.slackbotpoc.model.FunFact;
+import be.wouterversyck.slackintegration.model.FunFact;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 

@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.model.slack;
+package be.wouterversyck.slackintegration.model.slack;
 
 public enum ResponseTypes {
     IN_CHANNEL("in_channel");

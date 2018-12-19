@@ -1,8 +1,9 @@
-package com.poc.slackbotpoc.services;
+package be.wouterversyck.slackintegration.services;
 
-import com.poc.slackbotpoc.model.FunFact;
-import com.poc.slackbotpoc.repositories.FunFactRepository;
+import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.repositories.FunFactRepository;
 import lombok.NonNull;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,9 +21,11 @@ public class FunFactService {
         return repository.save(funFact);
     }
 
+    @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_one")
     public Mono<FunFact> get(@NonNull final String id) {
         return repository.findById(id);
     }
 
+    @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_all")
     public Flux<FunFact> getAll() { return repository.findAll(); }
 }

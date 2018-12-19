@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.config;
+package be.wouterversyck.slackintegration.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;

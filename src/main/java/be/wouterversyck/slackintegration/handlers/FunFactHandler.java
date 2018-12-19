@@ -1,8 +1,8 @@
-package com.poc.slackbotpoc.handlers;
+package be.wouterversyck.slackintegration.handlers;
 
-import com.poc.slackbotpoc.model.FunFact;
-import com.poc.slackbotpoc.model.errors.ValidationError;
-import com.poc.slackbotpoc.services.FunFactService;
+import be.wouterversyck.slackintegration.model.errors.ValidationError;
+import be.wouterversyck.slackintegration.services.FunFactService;
+import be.wouterversyck.slackintegration.model.FunFact;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;

@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.model.errors;
+package be.wouterversyck.slackintegration.model.errors;
 
 import lombok.Value;
 

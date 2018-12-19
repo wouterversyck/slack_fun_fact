@@ -1,8 +1,9 @@
-package com.poc.slackbotpoc.config;
+package be.wouterversyck.slackintegration.config;
 
-import com.poc.slackbotpoc.handlers.FunFactHandler;
-import com.poc.slackbotpoc.model.slack.SlackResponse;
-import com.poc.slackbotpoc.model.slack.SlackResponseAttachment;
+import be.wouterversyck.slackintegration.model.slack.ResponseTypes;
+import be.wouterversyck.slackintegration.model.slack.SlackResponse;
+import be.wouterversyck.slackintegration.model.slack.SlackResponseAttachment;
+import be.wouterversyck.slackintegration.handlers.FunFactHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -12,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 import java.security.Principal;
 
-import static com.poc.slackbotpoc.model.slack.ResponseTypes.IN_CHANNEL;
 import static java.lang.String.format;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
@@ -48,7 +48,7 @@ public class RouterConfig {
                 .GET("/slack/funfact", e ->
                     okResponse(SlackResponse.builder()
                             .withText("test")
-                            .withResponseType(IN_CHANNEL.getResponseType())
+                            .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
                             .withAttachment(
                                     SlackResponseAttachment
                                             .builder()
@@ -60,7 +60,7 @@ public class RouterConfig {
                 .POST("/slack/funfact", e ->
                         okResponse(SlackResponse.builder()
                                 .withText("test")
-                                .withResponseType(IN_CHANNEL.getResponseType())
+                                .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
                                 .withAttachment(
                                         SlackResponseAttachment
                                                 .builder()

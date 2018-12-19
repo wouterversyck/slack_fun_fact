@@ -1,4 +1,4 @@
-package com.poc.slackbotpoc.model;
+package be.wouterversyck.slackintegration.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

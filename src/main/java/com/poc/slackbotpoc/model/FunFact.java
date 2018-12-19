@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
@@ -17,8 +18,10 @@ public class FunFact {
     private String author;
     @NotEmpty(message = "fun_fact cannot be empty")
     @JsonProperty("fun_fact")
+    @Field("fun_fact")
     private String funFact;
     @CreatedDate
+    @Field("create_date")
     @JsonProperty("create_date")
     private Date createDate;
 }

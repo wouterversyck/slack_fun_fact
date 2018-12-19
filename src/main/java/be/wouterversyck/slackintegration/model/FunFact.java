@@ -20,6 +20,8 @@ public class FunFact {
     @JsonProperty("fun_fact")
     @Field("fun_fact")
     private String funFact;
+    @NotEmpty(message = "title cannot be empty")
+    private String title;
     @CreatedDate
     @Field("create_date")
     @JsonProperty("create_date")

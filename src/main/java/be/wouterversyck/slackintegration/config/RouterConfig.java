@@ -26,6 +26,7 @@ public class RouterConfig {
         return route()
                 .GET("/funfact/{id}", funFactHandler::get)
                 .GET("/funfact", funFactHandler::getAll)
+                .GET("/latest-fun-fact", funFactHandler::getLatest)
                 .POST("/funfact", accept(APPLICATION_JSON), funFactHandler::add)
                 .build();
     }

@@ -1,5 +1,6 @@
 package be.wouterversyck.slackintegration.model.slack;
 
+import be.wouterversyck.slackintegration.model.FunFact;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -14,6 +15,18 @@ public class SlackResponse {
     private String text;
     @JsonProperty("attachments")
     private List<SlackResponseAttachment> slackResponseAttachments;
+
+    @JsonIgnore
+    public static SlackResponse fromFunFact(final FunFact funFact) {
+        return builder()
+                .withText(funFact.getTitle())
+                .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
+                .withAttachment(
+                        SlackResponseAttachment.builder()
+                                .withText(funFact.getFunFact())
+                                .build()
+                ).build();
+    }
 
     @JsonIgnore
     public static SlackResponseBuilder builder() {

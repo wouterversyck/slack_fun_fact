@@ -8,8 +8,8 @@
         <version>2.1.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.poc</groupId>
-    <artifactId>slack-bot-poc</artifactId>
+    <groupId>be.wouterversyck</groupId>
+    <artifactId>slack-integration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>slack-bot-poc</name>
     <description>Test project to create Slack bot</description>

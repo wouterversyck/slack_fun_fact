@@ -27,5 +27,7 @@ public class FunFactService {
     }
 
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_all")
-    public Flux<FunFact> getAll() { return repository.findAll(); }
+    public Flux<FunFact> getAll() {
+        return repository.findAll();
+    }
 }

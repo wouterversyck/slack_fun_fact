@@ -32,7 +32,7 @@ public class SlackResponse {
     @JsonIgnore
     public static SlackResponse fromJoke(final Joke joke) {
         return builder()
-                .withText(joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
+                .withText(joke.getTitle() == null || joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
                 .withResponseType(ResponseType.IN_CHANNEL)
                 .withAttachment(
                         SlackResponseAttachment.builder()

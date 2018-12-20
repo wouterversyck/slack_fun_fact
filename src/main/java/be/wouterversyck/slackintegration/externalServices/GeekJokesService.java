@@ -20,6 +20,7 @@ public class GeekJokesService {
                 .accept(MediaType.TEXT_PLAIN)
                 .exchange()
                 .flatMap(res -> res.bodyToMono(String.class))
+                .map(joke -> joke.replace("\"", "").replace("\n", ""))
                 .map(Joke::new);
     }
 }

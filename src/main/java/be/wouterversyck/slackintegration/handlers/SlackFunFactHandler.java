@@ -1,6 +1,6 @@
 package be.wouterversyck.slackintegration.handlers;
 
-import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.externalServices.GeekJokesService;
 import be.wouterversyck.slackintegration.model.slack.SlackResponse;
 import be.wouterversyck.slackintegration.services.FunFactService;
 import lombok.NonNull;
@@ -18,9 +18,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class SlackFunFactHandler {
     private FunFactService funFactService;
     private Validator validator;
+    private GeekJokesService geekJokesService;
 
-    public SlackFunFactHandler(@NonNull final FunFactService funFactService, @NonNull final Validator validator) {
+    public SlackFunFactHandler(@NonNull final FunFactService funFactService, @NonNull final GeekJokesService geekJokeService, @NonNull final Validator validator) {
         this.funFactService = funFactService;
+        this.geekJokesService = geekJokeService;
         this.validator = validator;
     }
 
@@ -30,7 +32,16 @@ public class SlackFunFactHandler {
                 .flatMap(this::toResponse);
     }
 
-    public Mono<ServerResponse> getLatest(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getAFunFact(ServerRequest serverRequest) {
+
+        boolean useJokeService = Math.floor(Math.random() * 2) == 0;
+
+        if (useJokeService) {
+            return geekJokesService.getJoke()
+                    .map(SlackResponse::fromJoke)
+                    .flatMap(this::toResponse);
+
+        }
         return funFactService.getLatest()
                 .map(SlackResponse::fromFunFact)
                 .flatMap(this::toResponse);

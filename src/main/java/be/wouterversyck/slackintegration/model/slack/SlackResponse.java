@@ -1,6 +1,7 @@
 package be.wouterversyck.slackintegration.model.slack;
 
 import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.model.geekJokes.Joke;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -24,6 +25,18 @@ public class SlackResponse {
                 .withAttachment(
                         SlackResponseAttachment.builder()
                                 .withText(funFact.getFunFact())
+                                .build()
+                ).build();
+    }
+
+    @JsonIgnore
+    public static SlackResponse fromJoke(final Joke joke) {
+        return builder()
+                .withText(joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
+                .withResponseType(ResponseType.IN_CHANNEL)
+                .withAttachment(
+                        SlackResponseAttachment.builder()
+                                .withText(joke.getJoke())
                                 .build()
                 ).build();
     }

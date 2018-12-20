@@ -20,7 +20,7 @@ public class SlackResponse {
     public static SlackResponse fromFunFact(final FunFact funFact) {
         return builder()
                 .withText(funFact.getTitle())
-                .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
+                .withResponseType(ResponseType.IN_CHANNEL)
                 .withAttachment(
                         SlackResponseAttachment.builder()
                                 .withText(funFact.getFunFact())
@@ -32,7 +32,6 @@ public class SlackResponse {
     public static SlackResponseBuilder builder() {
         return new SlackResponseBuilder();
     }
-
     public static class SlackResponseBuilder {
         private String responseType;
         private String text;
@@ -69,5 +68,9 @@ public class SlackResponse {
             response.setSlackResponseAttachments(attachments);
             return response;
         }
+    }
+
+    public static final class ResponseType {
+        public static final String IN_CHANNEL = "in_channel";
     }
 }

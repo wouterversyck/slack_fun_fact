@@ -1,5 +1,6 @@
 package be.wouterversyck.slackintegration.config;
 
+import be.wouterversyck.slackintegration.handlers.SlackFunFactHandler;
 import be.wouterversyck.slackintegration.model.slack.ResponseTypes;
 import be.wouterversyck.slackintegration.model.slack.SlackResponse;
 import be.wouterversyck.slackintegration.model.slack.SlackResponseAttachment;
@@ -44,32 +45,10 @@ public class RouterConfig {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> slackRoutes() {
+    public RouterFunction<ServerResponse> slackRoutes(SlackFunFactHandler slackFunFactHandler) {
         return route()
-                .GET("/slack/funfact", e ->
-                    okResponse(SlackResponse.builder()
-                            .withText("test")
-                            .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
-                            .withAttachment(
-                                    SlackResponseAttachment
-                                            .builder()
-                                            .withText("hello").build()
-                            )
-                            .build()
-                    )
-                )
-                .POST("/slack/funfact", e ->
-                        okResponse(SlackResponse.builder()
-                                .withText("test")
-                                .withResponseType(ResponseTypes.IN_CHANNEL.getResponseType())
-                                .withAttachment(
-                                        SlackResponseAttachment
-                                                .builder()
-                                                .withText("hello").build()
-                                )
-                                .build()
-                        )
-                )
+                .GET("/slack/funfact", slackFunFactHandler::getLatest)
+                .POST("/slack/funfact", slackFunFactHandler::getLatest)
                 .build();
     }
 

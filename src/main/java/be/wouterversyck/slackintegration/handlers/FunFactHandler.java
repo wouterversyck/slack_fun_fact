@@ -64,11 +64,9 @@ public class FunFactHandler {
     }
 
     public Mono<ServerResponse> getLatest(ServerRequest serverRequest) {
-        return ok().body(
-                BodyInserters.fromPublisher(
-                        funFactService.getLatest(), FunFact.class
-                )
-        );
+        return funFactService.getLatest()
+                .flatMap(this::toResponse)
+                .switchIfEmpty(notFound().build());
     }
 
     private Mono<ServerResponse> toResponse(final FunFact funFact) {

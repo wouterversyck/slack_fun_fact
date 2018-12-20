@@ -22,9 +22,9 @@ public class RouterConfig {
     @Bean
     public RouterFunction<ServerResponse> funFactRoutes(FunFactHandler funFactHandler) {
         return route()
+                .GET("/funfact/latest", funFactHandler::getLatest)
                 .GET("/funfact/{id}", funFactHandler::get)
                 .GET("/funfact", funFactHandler::getAll)
-                .GET("/latest-fun-fact", funFactHandler::getLatest)
                 .POST("/funfact", accept(APPLICATION_JSON), funFactHandler::add)
                 .build();
     }
@@ -33,7 +33,6 @@ public class RouterConfig {
     public RouterFunction<ServerResponse> greetingRoutes() {
         return route()
                 .GET("/greeting", e ->
-
                     e.principal()
                             .map(Principal::getName)
                             .flatMap(p -> okResponse(format("Hello %s", p)))

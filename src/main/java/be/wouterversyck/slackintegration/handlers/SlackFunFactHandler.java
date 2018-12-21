@@ -1,7 +1,8 @@
 package be.wouterversyck.slackintegration.handlers;
 
 import be.wouterversyck.slackintegration.externalServices.GeekJokesService;
-import be.wouterversyck.slackintegration.model.slack.SlackResponse;
+import be.wouterversyck.slackintegration.model.slack.Message;
+import be.wouterversyck.slackintegration.model.slack.MessageConverter;
 import be.wouterversyck.slackintegration.services.FunFactService;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class SlackFunFactHandler {
 
     public Mono<ServerResponse> getRandom(ServerRequest serverRequest) {
         return funFactService.getRandom()
-                .map(SlackResponse::fromFunFact)
+                .map(MessageConverter::fromFunFact)
                 .flatMap(this::toResponse);
     }
 
@@ -38,16 +39,16 @@ public class SlackFunFactHandler {
 
         if (useJokeService) {
             return geekJokesService.getJoke()
-                    .map(SlackResponse::fromJoke)
+                    .map(MessageConverter::fromJoke)
                     .flatMap(this::toResponse);
 
         }
         return funFactService.getLatest()
-                .map(SlackResponse::fromFunFact)
+                .map(MessageConverter::fromFunFact)
                 .flatMap(this::toResponse);
     }
 
-    private Mono<ServerResponse> toResponse(final SlackResponse funFact) {
+    private Mono<ServerResponse> toResponse(final Message funFact) {
         return ok().body(BodyInserters.fromObject(funFact));
     }
 }

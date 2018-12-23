@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.http.ResponseEntity.notFound;
-import static org.springframework.http.ResponseEntity.ok;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/funfact")
@@ -34,7 +33,7 @@ public class FunFactController extends AbstractController<FunFact> {
     }
 
     @PostMapping
-    public Mono<FunFact> addFunFact(@RequestBody final FunFact funFact) {
+    public Mono<FunFact> addFunFact(@RequestBody @Valid final FunFact funFact) {
         return funFactService.add(funFact);
     }
 }

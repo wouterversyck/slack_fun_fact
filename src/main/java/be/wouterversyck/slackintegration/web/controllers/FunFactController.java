@@ -33,7 +33,7 @@ public class FunFactController extends AbstractController<FunFact> {
     }
 
     @PostMapping
-    public Mono<FunFact> addFunFact(@RequestBody @Valid final FunFact funFact) {
+    public Mono<FunFact> addFunFact(@Valid @RequestBody FunFact funFact) {
         return funFactService.add(funFact);
     }
 }

@@ -17,7 +17,7 @@ public class SlackFunFactMessageCreator {
                 .withAttachment(
                         Attachment.builder()
                                 .withText(funFact.getFunFact())
-                                .withCallbackId("funfact_vote")
+                                .withCallbackId(funFact.getId())
                                 .withAuthorName(funFact.getAuthor())
                                 .withTimestamp(funFact.getCreateDate().getTime())
                                 .withColor(Attachment.Color.GREEN)
@@ -46,7 +46,7 @@ public class SlackFunFactMessageCreator {
                 .withAttachment(
                         Attachment.builder()
                                 .withText(joke.getJoke())
-                                .withCallbackId("funfact_vote")
+                                .withCallbackId("do_nothing")
                                 .withTimestamp(new Date().getTime())
                                 .withColor(Attachment.Color.GREEN)
                                 .withAction(

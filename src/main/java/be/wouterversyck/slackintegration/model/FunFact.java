@@ -26,4 +26,5 @@ public class FunFact {
     @Field("create_date")
     @JsonProperty("create_date")
     private Date createDate;
+    private int votes;
 }

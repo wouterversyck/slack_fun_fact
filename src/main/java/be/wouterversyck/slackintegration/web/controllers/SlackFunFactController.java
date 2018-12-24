@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/slack/funfact")
 public class SlackFunFactController {
@@ -26,6 +28,7 @@ public class SlackFunFactController {
 
     @PostMapping("/vote")
     public Mono<ResponseEntity> vote(@RequestBody ActionResponse response) {
-        return Mono.just(ResponseEntity.ok().build());
+        return slackFacade.vote(response)
+                .map(e -> ok().body(e));
     }
 }

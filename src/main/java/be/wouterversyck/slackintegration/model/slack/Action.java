@@ -1,6 +1,7 @@
 package be.wouterversyck.slackintegration.model.slack;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Action {
     @JsonProperty("data_source")
     private String dataSource;
     private List<Option> options;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Confirm confirm;
 
     @JsonIgnore

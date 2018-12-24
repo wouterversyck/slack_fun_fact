@@ -7,7 +7,6 @@ import be.wouterversyck.slackintegration.model.slack.Attachment;
 import be.wouterversyck.slackintegration.model.slack.Message;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class SlackFunFactMessageCreator {
 

@@ -13,9 +13,9 @@ public class ActionResponse {
     @JsonProperty("callback_id")
     private String callbackId;
     @JsonProperty("action_ts")
-    private long actionTimeStamp;
+    private String actionTimeStamp;
     @JsonProperty("message_ts")
-    private long messageTimeStamp;
+    private String messageTimeStamp;
     @JsonProperty("attachment_id")
     private long attachmentId;
     private String token;

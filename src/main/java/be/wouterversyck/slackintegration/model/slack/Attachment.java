@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 public class Attachment {
+    @JsonProperty("callback_id")
+    private String callbackId;
     private String fallback;
     private String color;
     private String pretext;
@@ -58,6 +60,7 @@ public class Attachment {
         private String footer;
         private String footerIcon;
         private long timestamp;
+        private String callbackId;
 
         private AttachmentBuilder() {
             this.fields = new ArrayList<>();
@@ -159,6 +162,11 @@ public class Attachment {
             return this;
         }
 
+        public AttachmentBuilder withCallbackId(final String callbackId) {
+            this.callbackId = callbackId;
+            return this;
+        }
+
         public Attachment build() {
             Attachment attachment = new Attachment();
             attachment.setFallback(fallback);
@@ -177,6 +185,7 @@ public class Attachment {
             attachment.setFooterIcon(footerIcon);
             attachment.setTimestamp(timestamp);
             attachment.setText(text);
+            attachment.setCallbackId(callbackId);
             return attachment;
         }
     }

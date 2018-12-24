@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 public class Action {
+    @JsonProperty("callback_id")
+    private String callbackId;
     private String name;
     private String type;
     private String text;
@@ -25,6 +27,7 @@ public class Action {
     }
 
     public static class ActionBuilder {
+        private String callbackId;
         private String name;
         private String type;
         private String text;
@@ -72,6 +75,10 @@ public class Action {
             this.options.add(option);
             return this;
         }
+        public ActionBuilder withCallbackId(final String callbackId) {
+            this.callbackId = callbackId;
+            return this;
+        }
 
         public Action build() {
             Action action = new Action();
@@ -82,6 +89,7 @@ public class Action {
             action.setValue(value);
             action.setDataSource(dataSource);
             action.setOptions(options);
+            action.setCallbackId(callbackId);
 
             return action;
         }

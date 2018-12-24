@@ -10,8 +10,6 @@ import java.util.List;
 
 @Data
 public class Message {
-    @JsonProperty("callback_id")
-    private String callbackId;
     @JsonProperty("response_type")
     private String responseType;
     private String text;
@@ -26,7 +24,6 @@ public class Message {
         private String responseType;
         private String text;
         private List<Attachment> attachments;
-        private String callbackId;
 
         private MessageBuilder() {
             this.attachments = new ArrayList<>();
@@ -52,17 +49,11 @@ public class Message {
             return this;
         }
 
-        public MessageBuilder withCallbackId(final String callbackId) {
-            this.callbackId = callbackId;
-            return this;
-        }
-
         public Message build() {
             Message response = new Message();
             response.setResponseType(responseType);
             response.setText(text);
             response.setSlackResponseAttachments(attachments);
-            response.setCallbackId(callbackId);
             return response;
         }
     }

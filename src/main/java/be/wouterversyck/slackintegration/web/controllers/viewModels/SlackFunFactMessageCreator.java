@@ -14,11 +14,11 @@ public class SlackFunFactMessageCreator {
     public static Message fromFunFact(final FunFact funFact) {
         return Message.builder()
                 .withText(funFact.getTitle())
-                .withCallbackId(UUID.randomUUID().toString())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
                 .withAttachment(
                         Attachment.builder()
                                 .withText(funFact.getFunFact())
+                                .withCallbackId("funfact_vote")
                                 .withAuthorName(funFact.getAuthor())
                                 .withTimestamp(funFact.getCreateDate().getTime())
                                 .withColor(Attachment.Color.GREEN)
@@ -43,11 +43,11 @@ public class SlackFunFactMessageCreator {
     public static Message fromJoke(final Joke joke) {
         return Message.builder()
                 .withText(joke.getTitle() == null || joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
-                .withCallbackId(UUID.randomUUID().toString())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
                 .withAttachment(
                         Attachment.builder()
                                 .withText(joke.getJoke())
+                                .withCallbackId("funfact_vote")
                                 .withTimestamp(new Date().getTime())
                                 .withColor(Attachment.Color.GREEN)
                                 .withAction(

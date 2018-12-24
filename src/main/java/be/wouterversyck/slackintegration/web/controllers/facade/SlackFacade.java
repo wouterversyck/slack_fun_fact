@@ -2,7 +2,7 @@ package be.wouterversyck.slackintegration.web.controllers.facade;
 
 import be.wouterversyck.slackintegration.externalServices.GeekJokesService;
 import be.wouterversyck.slackintegration.model.slack.Message;
-import be.wouterversyck.slackintegration.model.slack.MessageConverter;
+import be.wouterversyck.slackintegration.web.controllers.viewModels.SlackFunFactMessageCreator;
 import be.wouterversyck.slackintegration.services.FunFactService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -22,10 +22,10 @@ public class SlackFacade {
 
         if(useJokeService) {
             return geekJokesService.getJoke()
-                    .map(MessageConverter::fromJoke);
+                    .map(SlackFunFactMessageCreator::fromJoke);
         }
 
         return funFactService.getLatest()
-                .map(MessageConverter::fromFunFact);
+                .map(SlackFunFactMessageCreator::fromFunFact);
     }
 }

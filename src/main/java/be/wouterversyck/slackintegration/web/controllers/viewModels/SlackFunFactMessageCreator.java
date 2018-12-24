@@ -1,15 +1,20 @@
-package be.wouterversyck.slackintegration.model.slack;
+package be.wouterversyck.slackintegration.web.controllers.viewModels;
 
 import be.wouterversyck.slackintegration.model.FunFact;
 import be.wouterversyck.slackintegration.model.geekJokes.Joke;
+import be.wouterversyck.slackintegration.model.slack.Action;
+import be.wouterversyck.slackintegration.model.slack.Attachment;
+import be.wouterversyck.slackintegration.model.slack.Message;
 
 import java.util.Date;
+import java.util.UUID;
 
-public class MessageConverter {
+public class SlackFunFactMessageCreator {
 
     public static Message fromFunFact(final FunFact funFact) {
         return Message.builder()
                 .withText(funFact.getTitle())
+                .withCallbackId(UUID.randomUUID().toString())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
                 .withAttachment(
                         Attachment.builder()
@@ -22,14 +27,14 @@ public class MessageConverter {
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Was this dank?")
-                                                .withValue("Nice?")
+                                                .withValue("up")
                                                 .build()
                                 ).withAction(
                                         Action.builder()
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Not so dank")
-                                                .withValue("Not Nice!")
+                                                .withValue("down")
                                                 .build()
                         ).build()
                 ).build();
@@ -38,6 +43,7 @@ public class MessageConverter {
     public static Message fromJoke(final Joke joke) {
         return Message.builder()
                 .withText(joke.getTitle() == null || joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
+                .withCallbackId(UUID.randomUUID().toString())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
                 .withAttachment(
                         Attachment.builder()
@@ -49,14 +55,14 @@ public class MessageConverter {
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Was this dank?")
-                                                .withValue("Nice?")
+                                                .withValue("up")
                                                 .build()
                                 ).withAction(
                                         Action.builder()
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Not so dank")
-                                                .withValue("Not Nice!")
+                                                .withValue("down")
                                                 .build()
                         ).build()
                 ).build();

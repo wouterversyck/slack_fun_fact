@@ -22,6 +22,10 @@ public class FunFactService {
         return repository.save(funFact);
     }
 
+    public Mono<FunFact> save(@NonNull final FunFact funFact) {
+        return repository.save(funFact);
+    }
+
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_one")
     public Mono<FunFact> get(@NonNull final String id) {
         return repository.findById(id);

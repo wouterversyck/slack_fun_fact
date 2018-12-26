@@ -1,6 +1,7 @@
 package be.wouterversyck.slackintegration.model.slack;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class Action {
     @JsonProperty("data_source")
     private String dataSource;
     private List<Option> options;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Confirm confirm;
 
     @JsonIgnore
     public static ActionBuilder builder() {
@@ -33,6 +36,7 @@ public class Action {
         @JsonProperty("data_source")
         private String dataSource;
         private List<Option> options;
+        private Confirm confirm;
 
         public ActionBuilder() {
             this.options = new ArrayList<>();
@@ -72,6 +76,10 @@ public class Action {
             this.options.add(option);
             return this;
         }
+        public ActionBuilder withConfirm(final Confirm confirm) {
+            this.confirm = confirm;
+            return this;
+        }
 
         public Action build() {
             Action action = new Action();
@@ -82,6 +90,7 @@ public class Action {
             action.setValue(value);
             action.setDataSource(dataSource);
             action.setOptions(options);
+            action.setConfirm(confirm);
 
             return action;
         }

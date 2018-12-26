@@ -26,14 +26,14 @@ public class SlackFunFactMessageCreator {
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Was this dank?")
-                                                .withValue("up")
+                                                .withValue(Action.ActionValues.UPVOTE.getValue())
                                                 .build()
                                 ).withAction(
                                         Action.builder()
                                                 .withName("appraisal")
                                                 .withType(Action.ActionType.BUTTON)
                                                 .withText("Not so dank")
-                                                .withValue("down")
+                                                .withValue(Action.ActionValues.DOWNVOTE.getValue())
                                                 .build()
                         ).build()
                 ).build();

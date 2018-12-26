@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static be.wouterversyck.slackintegration.model.slack.Action.ActionValues.UPVOTE;
+
 @Service
 public class SlackFacade {
     private FunFactService funFactService;
@@ -33,16 +35,25 @@ public class SlackFacade {
                 .map(SlackFunFactMessageCreator::fromFunFact);
     }
 
-    public Mono<FunFact> vote(final ActionResponse actionResponse) {
+    public Mono<Message> vote(final ActionResponse actionResponse) {
         return Flux.fromIterable(actionResponse.getActions())
                 .filter(e -> e.getName().equals("appraisal"))
                 .next()
                 .flatMap(e -> vote(actionResponse.getCallbackId(), e.getValue()));
     }
 
-    private Mono<FunFact> vote(final String id, final String value) {
+    private Mono<Message> vote(final String id, final String value) {
         return funFactService.get(id)
-                .doOnNext(e -> e.setVotes(e.getVotes() + 1))
-                .flatMap(funFactService::save);
+                .doOnNext(e -> vote(e, value))
+                .flatMap(funFactService::save)
+                .map(SlackFunFactMessageCreator::fromFunFact);
+    }
+
+    private void vote(final FunFact funFact, final String value) {
+        if(value.equals(UPVOTE.getValue())) {
+            funFact.setVotes(funFact.getVotes() + 1);
+        } else {
+            funFact.setVotes(funFact.getVotes() - 1);
+        }
     }
 }

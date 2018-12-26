@@ -108,4 +108,16 @@ public class Action {
             this.value = value;
         }
     }
+
+    public enum ActionValues {
+        UPVOTE("up"),
+        DOWNVOTE("down");
+
+        @Getter
+        private String value;
+
+        ActionValues(String value) {
+            this.value = value;
+        }
+    }
 }

@@ -8,6 +8,8 @@ import be.wouterversyck.slackintegration.model.slack.Message;
 
 import java.util.Date;
 
+import static java.lang.String.format;
+
 public class SlackFunFactMessageCreator {
 
     public static Message fromFunFact(final FunFact funFact) {
@@ -21,6 +23,7 @@ public class SlackFunFactMessageCreator {
                                 .withAuthorName(funFact.getAuthor())
                                 .withTimestamp(funFact.getCreateDate().getTime())
                                 .withColor(Attachment.Color.GREEN)
+                                .withFooter(format("Votes: %s", funFact.getVotes()))
                                 .withAction(
                                         Action.builder()
                                                 .withName("appraisal")

@@ -14,6 +14,8 @@ public class Attachment {
     private String callbackId;
     private String fallback;
     private String color;
+    @JsonProperty("attachment_type")
+    private String attachmentType;
     private String pretext;
     @JsonProperty("author_name")
     private String authorName;

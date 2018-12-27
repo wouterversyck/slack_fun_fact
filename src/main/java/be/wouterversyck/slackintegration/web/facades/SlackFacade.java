@@ -1,11 +1,11 @@
-package be.wouterversyck.slackintegration.web.controllers.facade;
+package be.wouterversyck.slackintegration.web.facades;
 
-import be.wouterversyck.slackintegration.externalServices.GeekJokesService;
+import be.wouterversyck.slackintegration.services.apiServices.GeekJokesService;
 import be.wouterversyck.slackintegration.model.FunFact;
 import be.wouterversyck.slackintegration.model.slack.ActionResponse;
 import be.wouterversyck.slackintegration.model.slack.Message;
-import be.wouterversyck.slackintegration.web.controllers.viewModels.SlackFunFactMessageCreator;
-import be.wouterversyck.slackintegration.services.FunFactService;
+import be.wouterversyck.slackintegration.web.viewModels.SlackFunFactMessageCreator;
+import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,15 +23,7 @@ public class SlackFacade {
     }
 
     public Mono<Message> getSlackFunFact() {
-        //TODO store external objects in db with a hash
-//        boolean useJokeService = Math.floor(Math.random() * 2) == 0;
-//
-//        if(useJokeService) {
-//            return geekJokesService.getJoke()
-//                    .map(SlackFunFactMessageCreator::fromJoke);
-//        }
-
-        return funFactService.getLatest()
+        return funFactService.getRandom()
                 .map(SlackFunFactMessageCreator::fromFunFact);
     }
 
@@ -43,17 +35,13 @@ public class SlackFacade {
     }
 
     private Mono<Message> vote(final String id, final String value) {
-        return funFactService.get(id)
-                .doOnNext(e -> vote(e, value))
-                .flatMap(funFactService::save)
-                .map(SlackFunFactMessageCreator::fromFunFact);
-    }
-
-    private void vote(final FunFact funFact, final String value) {
+        Mono<FunFact> message;
         if(value.equals(UPVOTE.getValue())) {
-            funFact.setVotes(funFact.getVotes() + 1);
+             message = funFactService.upvote(id);
         } else {
-            funFact.setVotes(funFact.getVotes() - 1);
+            message = funFactService.downVote(id);
         }
+
+        return message.map(SlackFunFactMessageCreator::fromFunFact);
     }
 }

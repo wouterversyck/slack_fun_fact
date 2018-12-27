@@ -2,7 +2,7 @@ package be.wouterversyck.slackintegration.web.controllers;
 
 import be.wouterversyck.slackintegration.model.slack.ActionResponse;
 import be.wouterversyck.slackintegration.model.slack.Message;
-import be.wouterversyck.slackintegration.web.controllers.facade.SlackFacade;
+import be.wouterversyck.slackintegration.web.facades.SlackFacade;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package be.wouterversyck.slackintegration.externalServices;
+package be.wouterversyck.slackintegration.services.apiServices;
 
 import be.wouterversyck.slackintegration.model.geekJokes.Joke;
 import org.springframework.beans.factory.annotation.Value;

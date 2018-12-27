@@ -1,4 +1,4 @@
-package be.wouterversyck.slackintegration.web.controllers.viewModels;
+package be.wouterversyck.slackintegration.web.viewModels;
 
 import be.wouterversyck.slackintegration.model.FunFact;
 import be.wouterversyck.slackintegration.model.geekJokes.Joke;

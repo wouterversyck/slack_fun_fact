@@ -1,4 +1,4 @@
-package be.wouterversyck.slackintegration.services;
+package be.wouterversyck.slackintegration.services.databaseServices;
 
 import be.wouterversyck.slackintegration.model.FunFact;
 import be.wouterversyck.slackintegration.repositories.FunFactRepository;
@@ -26,6 +26,28 @@ public class FunFactService {
         return repository.save(funFact);
     }
 
+    public Mono<FunFact> upvote(@NonNull final FunFact funFact) {
+        funFact.setVotes(funFact.getVotes() + 1);
+        return repository.save(funFact);
+    }
+
+    public Mono<FunFact> downVote(@NonNull final FunFact funFact) {
+        funFact.setVotes(funFact.getVotes() - 1);
+        return repository.save(funFact);
+    }
+
+    public Mono<FunFact> upvote(@NonNull final String id) {
+        return get(id)
+                .doOnNext(e -> e.setVotes(e.getVotes() + 1))
+                .flatMap(this::save);
+    }
+
+    public Mono<FunFact> downVote(@NonNull final String id) {
+        return get(id)
+                .doOnNext(e -> e.setVotes(e.getVotes() - 1))
+                .flatMap(this::save);
+    }
+
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_one")
     public Mono<FunFact> get(@NonNull final String id) {
         return repository.findById(id);
@@ -38,7 +60,12 @@ public class FunFactService {
 
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_random")
     public Mono<FunFact> getRandom() {
-        throw new NotImplementedException();
+        return repository.getRandom();
+    }
+
+    @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_top_voted")
+    public Mono<FunFact> getTopVoted() {
+        return repository.findTopByOrderByVotesDesc();
     }
 
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_latest")

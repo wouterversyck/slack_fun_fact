@@ -1,7 +1,7 @@
 package be.wouterversyck.slackintegration.web.controllers;
 
 import be.wouterversyck.slackintegration.model.FunFact;
-import be.wouterversyck.slackintegration.services.FunFactService;
+import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -20,6 +20,16 @@ public class FunFactController extends AbstractController<FunFact> {
     @GetMapping("/latest")
     public Mono<ResponseEntity<FunFact>> getLatest() {
         return onEmptyNotFound(funFactService.getLatest());
+    }
+
+    @GetMapping("/random")
+    public Mono<ResponseEntity<FunFact>> getRandom() {
+        return onEmptyNotFound(funFactService.getRandom());
+    }
+
+    @GetMapping("/top")
+    public Mono<ResponseEntity<FunFact>> getTopVoted() {
+        return onEmptyNotFound(funFactService.getTopVoted());
     }
 
     @GetMapping("/{id}")

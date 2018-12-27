@@ -110,16 +110,9 @@ public class Action {
     }
 
     public enum ActionValue {
-        UPVOTE("up"),
-        DOWNVOTE("down"),
-        REMOVE_UP("remove_up"),
-        REMOVE_DOWN("remove_down");
-
-        @Getter
-        private String value;
-
-        ActionValue(String value) {
-            this.value = value;
-        }
+        UPVOTE,
+        DOWNVOTE,
+        REMOVE_UP,
+        REMOVE_DOWN;
     }
 }

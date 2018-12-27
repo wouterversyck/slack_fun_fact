@@ -86,7 +86,7 @@ public class SlackFunFactMessageConverter {
                 .withName("appraisal")
                 .withType(Action.ActionType.BUTTON)
                 .withText("Dank!")
-                .withValue(Action.ActionValue.UPVOTE.getValue())
+                .withValue(Action.ActionValue.UPVOTE.name())
                 .build();
     }
 
@@ -95,7 +95,7 @@ public class SlackFunFactMessageConverter {
                 .withName("appraisal")
                 .withType(Action.ActionType.BUTTON)
                 .withText("Remove up vote")
-                .withValue(Action.ActionValue.REMOVE_UP.getValue())
+                .withValue(Action.ActionValue.REMOVE_UP.name())
                 .build();
     }
 
@@ -104,7 +104,7 @@ public class SlackFunFactMessageConverter {
                 .withName("appraisal")
                 .withType(Action.ActionType.BUTTON)
                 .withText("Not so dank")
-                .withValue(Action.ActionValue.DOWNVOTE.getValue())
+                .withValue(Action.ActionValue.DOWNVOTE.name())
                 .build();
     }
 
@@ -113,7 +113,7 @@ public class SlackFunFactMessageConverter {
                 .withName("appraisal")
                 .withType(Action.ActionType.BUTTON)
                 .withText("Remove down vote")
-                .withValue(Action.ActionValue.REMOVE_DOWN.getValue())
+                .withValue(Action.ActionValue.REMOVE_DOWN.name())
                 .build();
     }
 }

@@ -30,8 +30,8 @@ public class SlackFunFactMessageConverter {
                                 .withAuthorName(funFact.getAuthor())
                                 .withTimestamp(funFact.getCreateDate().getTime())
                                 .withColor(Attachment.Color.GREEN)
-                                .withFooter(format("Votes: %s", funFact.getVotes()))
-                                .withActions(getActions(funFact.getVoteCollection(), user))
+                                .withFooter(format("Votes: %s", funFact.getVoteCount()))
+                                .withActions(getActions(funFact, user))
                                 .build()
                 ).build();
     }
@@ -64,11 +64,9 @@ public class SlackFunFactMessageConverter {
                 ).build();
     }
 
-    private List<Action> getActions(final List<Vote> votes, final User user) {
+    private List<Action> getActions(FunFact funFact, final User user) {
         List<Action> actions = new ArrayList<>();
-        Optional<Vote> vote = votes.stream()
-                .filter(e -> e.getUser().equals(user))
-                .findFirst();
+        Optional<Vote> vote = funFact.userHasVoted(user);
 
         if(vote.isPresent()) {
             if(vote.get().isUpVote()) {

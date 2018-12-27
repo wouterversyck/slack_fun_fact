@@ -28,24 +28,24 @@ public class FunFactService {
     }
 
     public Mono<FunFact> upVote(@NonNull final FunFact funFact, @NonNull final User user) {
-        funFact.getVoteCollection().add(createVote(true, user));
+        funFact.getVotes().add(createVote(true, user));
         return repository.save(funFact);
     }
 
     public Mono<FunFact> downVote(@NonNull final FunFact funFact, @NonNull final User user) {
-        funFact.getVoteCollection().add(createVote(false, user));
+        funFact.getVotes().add(createVote(false, user));
         return repository.save(funFact);
     }
 
     public Mono<FunFact> upVote(@NonNull final String id, @NonNull final User user) {
         return get(id)
-                .doOnNext(e -> e.getVoteCollection().add(createVote(true, user)))
+                .doOnNext(e -> e.getVotes().add(createVote(true, user)))
                 .flatMap(this::save);
     }
 
     public Mono<FunFact> downVote(@NonNull final String id, @NonNull final User user) {
         return get(id)
-                .doOnNext(e -> e.getVoteCollection().add(createVote(false, user)))
+                .doOnNext(e -> e.getVotes().add(createVote(false, user)))
                 .flatMap(this::save);
     }
 

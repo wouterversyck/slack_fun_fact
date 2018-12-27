@@ -1,6 +1,6 @@
 package be.wouterversyck.slackintegration.web.controllers;
 
-import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.model.funFact.FunFact;
 import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

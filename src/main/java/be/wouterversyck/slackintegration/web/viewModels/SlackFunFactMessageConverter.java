@@ -1,18 +1,23 @@
 package be.wouterversyck.slackintegration.web.viewModels;
 
-import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.model.funFact.FunFact;
+import be.wouterversyck.slackintegration.model.funFact.Vote;
 import be.wouterversyck.slackintegration.model.geekJokes.Joke;
 import be.wouterversyck.slackintegration.model.slack.Action;
 import be.wouterversyck.slackintegration.model.slack.Attachment;
 import be.wouterversyck.slackintegration.model.slack.Message;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
-public class SlackFunFactMessageCreator {
+@Component
+public class SlackFunFactMessageConverter {
 
-    public static Message fromFunFact(final FunFact funFact) {
+    public Message fromFunFact(final FunFact funFact) {
         return Message.builder()
                 .withText(funFact.getTitle())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
@@ -24,13 +29,8 @@ public class SlackFunFactMessageCreator {
                                 .withTimestamp(funFact.getCreateDate().getTime())
                                 .withColor(Attachment.Color.GREEN)
                                 .withFooter(format("Votes: %s", funFact.getVotes()))
-                                .withAction(
-                                        Action.builder()
-                                                .withName("appraisal")
-                                                .withType(Action.ActionType.BUTTON)
-                                                .withText("Was this dank?")
-                                                .withValue(Action.ActionValues.UPVOTE.getValue())
-                                                .build()
+                                .withAction(getActionFromVotes(funFact.getVoteCollection())
+
                                 ).withAction(
                                         Action.builder()
                                                 .withName("appraisal")
@@ -42,7 +42,7 @@ public class SlackFunFactMessageCreator {
                 ).build();
     }
 
-    public static Message fromJoke(final Joke joke) {
+    public Message fromJoke(final Joke joke) {
         return Message.builder()
                 .withText(joke.getTitle() == null || joke.getTitle().isEmpty() ? "Here's a fun fact" : joke.getTitle())
                 .withResponseType(Message.ResponseType.IN_CHANNEL)
@@ -68,5 +68,15 @@ public class SlackFunFactMessageCreator {
                                                 .build()
                         ).build()
                 ).build();
+    }
+
+    private Action getActionFromVotes(final List<Vote> votes) {
+        votes.contains()
+        Action.builder()
+                .withName("appraisal")
+                .withType(Action.ActionType.BUTTON)
+                .withText("Was this dank?")
+                .withValue(Action.ActionValues.UPVOTE.getValue())
+                .build()
     }
 }

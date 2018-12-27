@@ -1,4 +1,4 @@
-package be.wouterversyck.slackintegration.model.slack;
+package be.wouterversyck.slackintegration.model.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

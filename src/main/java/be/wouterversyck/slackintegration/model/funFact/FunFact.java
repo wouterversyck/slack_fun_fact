@@ -1,5 +1,7 @@
-package be.wouterversyck.slackintegration.model;
+package be.wouterversyck.slackintegration.model.funFact;
 
+import be.wouterversyck.slackintegration.model.common.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Data
 @Document(collection = "fun_facts")
@@ -26,5 +30,24 @@ public class FunFact {
     @Field("create_date")
     @JsonProperty("create_date")
     private Date createDate;
-    private int votes;
+    public int getVotes() {
+        int votes = 0;
+        for(Vote vote : this.voteCollection) {
+            if(vote.isUpVote()) {
+                ++votes;
+            } else {
+                --votes;
+            }
+        }
+
+        return votes;
+    }
+    @JsonIgnore
+    public Optional<Vote> userHasVoted(User user) {
+        return voteCollection.stream()
+                .filter(e -> e.getUser().equals(user))
+                .findFirst();
+    }
+    @JsonIgnore
+    private List<Vote> voteCollection;
 }

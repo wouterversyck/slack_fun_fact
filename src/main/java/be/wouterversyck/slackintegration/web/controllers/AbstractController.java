@@ -1,6 +1,5 @@
 package be.wouterversyck.slackintegration.web.controllers;
 
-import be.wouterversyck.slackintegration.model.FunFact;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 

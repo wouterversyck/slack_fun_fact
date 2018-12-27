@@ -1,13 +1,14 @@
 package be.wouterversyck.slackintegration.services.databaseServices;
 
-import be.wouterversyck.slackintegration.model.FunFact;
+import be.wouterversyck.slackintegration.model.common.User;
+import be.wouterversyck.slackintegration.model.funFact.FunFact;
+import be.wouterversyck.slackintegration.model.funFact.Vote;
 import be.wouterversyck.slackintegration.repositories.FunFactRepository;
 import lombok.NonNull;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
 public class FunFactService {
@@ -26,25 +27,25 @@ public class FunFactService {
         return repository.save(funFact);
     }
 
-    public Mono<FunFact> upvote(@NonNull final FunFact funFact) {
-        funFact.setVotes(funFact.getVotes() + 1);
+    public Mono<FunFact> upvote(@NonNull final FunFact funFact, @NonNull final User user) {
+        funFact.getVotes().add(createVote(true, user));
         return repository.save(funFact);
     }
 
-    public Mono<FunFact> downVote(@NonNull final FunFact funFact) {
-        funFact.setVotes(funFact.getVotes() - 1);
+    public Mono<FunFact> downVote(@NonNull final FunFact funFact, @NonNull final User user) {
+        funFact.getVotes().add(createVote(false, user));
         return repository.save(funFact);
     }
 
-    public Mono<FunFact> upvote(@NonNull final String id) {
+    public Mono<FunFact> upvote(@NonNull final String id, @NonNull final User user) {
         return get(id)
-                .doOnNext(e -> e.setVotes(e.getVotes() + 1))
+                .doOnNext(e -> e.getVotes().add(createVote(true, user)))
                 .flatMap(this::save);
     }
 
-    public Mono<FunFact> downVote(@NonNull final String id) {
+    public Mono<FunFact> downVote(@NonNull final String id, @NonNull final User user) {
         return get(id)
-                .doOnNext(e -> e.setVotes(e.getVotes() - 1))
+                .doOnNext(e -> e.getVotes().add(createVote(false, user)))
                 .flatMap(this::save);
     }
 
@@ -71,5 +72,12 @@ public class FunFactService {
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_latest")
     public Mono<FunFact> getLatest() {
         return repository.findTopByOrderByCreateDateDesc();
+    }
+
+    private Vote createVote(boolean upVote, User user) {
+        return Vote.builder()
+                .withVote(upVote)
+                .withUser(user)
+                .build();
     }
 }

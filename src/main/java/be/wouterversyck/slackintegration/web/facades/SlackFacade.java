@@ -1,8 +1,9 @@
 package be.wouterversyck.slackintegration.web.facades;
 
+import be.wouterversyck.slackintegration.exceptions.InvalidActionValueException;
 import be.wouterversyck.slackintegration.model.common.User;
-import be.wouterversyck.slackintegration.services.apiServices.GeekJokesService;
 import be.wouterversyck.slackintegration.model.funFact.FunFact;
+import be.wouterversyck.slackintegration.model.slack.Action;
 import be.wouterversyck.slackintegration.model.slack.ActionResponse;
 import be.wouterversyck.slackintegration.model.slack.Message;
 import be.wouterversyck.slackintegration.web.viewModels.SlackFunFactMessageConverter;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static be.wouterversyck.slackintegration.model.slack.Action.ActionValues.UPVOTE;
+import static java.lang.String.format;
 
 @Service
 public class SlackFacade {
@@ -23,9 +24,10 @@ public class SlackFacade {
         this.messageConverter = messageConverter;
     }
 
-    public Mono<Message> getSlackFunFact() {
+    public Mono<Message> getSlackFunFact(final User user) {
+
         return funFactService.getRandom()
-                .map(messageConverter::fromFunFact);
+                .map(e -> messageConverter.fromFunFact(e, user));
     }
 
     public Mono<Message> vote(final ActionResponse actionResponse) {
@@ -35,14 +37,25 @@ public class SlackFacade {
                 .flatMap(e -> vote(actionResponse.getCallbackId(), e.getValue(), actionResponse.getUser()));
     }
 
-    private Mono<Message> vote(final String id, final String value, final User user) {
+    private Mono<Message> vote(final String id, final String value, final User user) throws InvalidActionValueException {
         Mono<FunFact> message;
-        if(value.equals(UPVOTE.getValue())) {
-             message = funFactService.upvote(id, user);
-        } else {
-            message = funFactService.downVote(id, user);
+
+        Action.ActionValue actionValue;
+        try {
+            actionValue = Action.ActionValue.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidActionValueException(format("%s is not a valid action", value));
         }
 
-        return message.map(messageConverter::fromFunFact);
+        switch (actionValue) {
+            case UPVOTE : message = funFactService.upVote(id, user);
+                break;
+            case DOWNVOTE: message = funFactService.downVote(id, user);
+                break;
+            default:
+                message = funFactService.get(id);
+        }
+
+        return message.map(e -> messageConverter.fromFunFact(e, user));
     }
 }

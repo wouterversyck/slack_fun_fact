@@ -110,9 +110,7 @@ public class Action {
     }
 
     public enum ActionValue {
-        UPVOTE,
-        DOWNVOTE,
-        REMOVE_UP,
-        REMOVE_DOWN;
+        UP_VOTE,
+        DOWN_VOTE
     }
 }

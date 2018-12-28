@@ -1,4 +1,4 @@
-package be.wouterversyck.slackintegration.web.controllers;
+package be.wouterversyck.slackintegration.web.controllers.restControllers;
 
 import be.wouterversyck.slackintegration.model.common.User;
 import be.wouterversyck.slackintegration.model.slack.ActionResponse;
@@ -38,8 +38,7 @@ public class SlackFunFactController {
         ObjectMapper mapper = new ObjectMapper();
         ActionResponse actionResponse = mapper.readValue(payload.getFirst("payload"), ActionResponse.class);
         return slackFacade.vote(actionResponse)
-                .map(e -> ok().body(e))
-                .onErrorReturn(ResponseEntity.badRequest().build());
+                .map(e -> ok().body(e));
     }
 
     private User getUser(MultiValueMap<String, String> params) {

@@ -59,7 +59,7 @@ public class FunFact {
     @JsonIgnore
     public List<Vote> getVotes() {
         if(this.votes == null) {
-            return new ArrayList<>();
+            this.votes = new ArrayList<>();
         }
 
         return this.votes;

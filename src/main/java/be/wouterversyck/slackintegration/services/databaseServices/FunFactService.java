@@ -27,31 +27,39 @@ public class FunFactService {
         return repository.save(funFact);
     }
 
-    public Mono<FunFact> upVote(@NonNull final FunFact funFact, @NonNull final User user) {
-        funFact.getVotes().add(createVote(true, user));
-        return repository.save(funFact);
+    /**
+     * If there is already an upVote by the user ? remove upVote : add upVote
+     * @param funFactId
+     * @param user
+     * @return
+     */
+    public Mono<FunFact> upVoteOrRemoveUpVote(@NonNull final String funFactId, @NonNull final User user) {
+        return getRemoveVoteMono(funFactId, user.getId())
+                .switchIfEmpty(
+                        get(funFactId)
+                            .doOnNext(e -> e.getVotes().add(createVote(true, user)))
+                            .flatMap(this::save)
+                );
     }
 
-    public Mono<FunFact> downVote(@NonNull final FunFact funFact, @NonNull final User user) {
-        funFact.getVotes().add(createVote(false, user));
-        return repository.save(funFact);
-    }
-
-    public Mono<FunFact> upVote(@NonNull final String id, @NonNull final User user) {
-        return get(id)
-                .doOnNext(e -> e.getVotes().add(createVote(true, user)))
-                .flatMap(this::save);
-    }
-
-    public Mono<FunFact> downVote(@NonNull final String id, @NonNull final User user) {
-        return get(id)
-                .doOnNext(e -> e.getVotes().add(createVote(false, user)))
-                .flatMap(this::save);
+    /**
+     * If there is already an downVote by the user ? remove downVote : add downVote
+     * @param funFactId
+     * @param user
+     * @return
+     */
+    public Mono<FunFact> downVoteOrRemoveDownVote(@NonNull final String funFactId, @NonNull final User user) {
+        return getRemoveVoteMono(funFactId, user.getId())
+                .switchIfEmpty(
+                        get(funFactId)
+                            .doOnNext(e -> e.getVotes().add(createVote(false, user)))
+                            .flatMap(this::save)
+                );
     }
 
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_one")
-    public Mono<FunFact> get(@NonNull final String id) {
-        return repository.findById(id);
+    public Mono<FunFact> get(@NonNull final String funFactId) {
+        return repository.findById(funFactId);
     }
 
     @Cacheable("be.wouterversyck.slack-integration.fun_fact.get_all")
@@ -79,5 +87,15 @@ public class FunFactService {
                 .withVote(upVote)
                 .withUser(user)
                 .build();
+    }
+
+    private Mono<FunFact> getRemoveVoteMono(String funFactId, String userId) {
+        return repository.getVote(funFactId, userId)
+                .flatMap(e ->
+                        get(funFactId)
+                                .flatMap(x -> {
+                                    x.getVotes().remove(e);
+                                    return save(x);
+                                }));
     }
 }

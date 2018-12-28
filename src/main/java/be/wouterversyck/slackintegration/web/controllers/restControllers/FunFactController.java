@@ -1,8 +1,7 @@
-package be.wouterversyck.slackintegration.web.controllers;
+package be.wouterversyck.slackintegration.web.controllers.restControllers;
 
 import be.wouterversyck.slackintegration.model.funFact.FunFact;
 import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,30 +10,30 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/funfact")
-public class FunFactController extends AbstractController<FunFact> {
+public class FunFactController {
     private FunFactService funFactService;
 
     public FunFactController(FunFactService funFactService) {
         this.funFactService = funFactService;
     }
     @GetMapping("/latest")
-    public Mono<ResponseEntity<FunFact>> getLatest() {
-        return onEmptyNotFound(funFactService.getLatest());
+    public Mono<FunFact> getLatest() {
+        return funFactService.getLatest();
     }
 
     @GetMapping("/random")
-    public Mono<ResponseEntity<FunFact>> getRandom() {
-        return onEmptyNotFound(funFactService.getRandom());
+    public Mono<FunFact> getRandom() {
+        return funFactService.getRandom();
     }
 
     @GetMapping("/top")
-    public Mono<ResponseEntity<FunFact>> getTopVoted() {
-        return onEmptyNotFound(funFactService.getTopVoted());
+    public Mono<FunFact> getTopVoted() {
+        return funFactService.getTopVoted();
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<FunFact>> getFunFact(@PathVariable("id") final String id) {
-        return onEmptyNotFound(funFactService.get(id));
+    public Mono<FunFact> getFunFact(@PathVariable("id") final String id) {
+        return funFactService.get(id);
     }
 
     @GetMapping

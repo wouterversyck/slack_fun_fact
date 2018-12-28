@@ -1,4 +1,10 @@
 package be.wouterversyck.slackintegration.exceptions;
 
-public class FunFactNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class FunFactNotFoundException extends ResponseStatusException {
+    public FunFactNotFoundException(String message) {
+        super(HttpStatus.NOT_FOUND, message);
+    }
 }

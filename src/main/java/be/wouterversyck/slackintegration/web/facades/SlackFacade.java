@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static java.lang.String.format;
-
 @Service
 public class SlackFacade {
     private FunFactService funFactService;
@@ -44,13 +42,13 @@ public class SlackFacade {
         try {
             actionValue = Action.ActionValue.valueOf(value);
         } catch (IllegalArgumentException e) {
-            throw new InvalidActionValueException(format("%s is not a valid action", value));
+            throw new InvalidActionValueException(value);
         }
 
         switch (actionValue) {
-            case UPVOTE : message = funFactService.upVote(id, user);
+            case UP_VOTE: message = funFactService.upVoteOrRemoveUpVote(id, user);
                 break;
-            case DOWNVOTE: message = funFactService.downVote(id, user);
+            case DOWN_VOTE: message = funFactService.downVoteOrRemoveDownVote(id, user);
                 break;
             default:
                 message = funFactService.get(id);

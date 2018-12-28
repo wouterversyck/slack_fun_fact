@@ -1,5 +1,6 @@
-package be.wouterversyck.slackintegration.web.controllers;
+package be.wouterversyck.slackintegration.web.controllers.restControllers;
 
+import be.wouterversyck.slackintegration.model.common.User;
 import be.wouterversyck.slackintegration.model.slack.ActionResponse;
 import be.wouterversyck.slackintegration.model.slack.Message;
 import be.wouterversyck.slackintegration.web.facades.SlackFacade;
@@ -25,17 +26,25 @@ public class SlackFunFactController {
         this.slackFacade = slackFacade;
     }
 
-    @PostMapping
-    public Mono<Message> getAFunFact() {
-        return slackFacade.getSlackFunFact();
+    @RequestMapping(value = "", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Message> getAFunFact(@RequestBody MultiValueMap<String, String> payload) {
+        return slackFacade.getSlackFunFact(getUser(payload));
     }
 
     @RequestMapping(value = "/vote", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity> vote(@RequestBody MultiValueMap<String, String> payload) throws IOException {
+    public Mono<ResponseEntity<Message>> vote(@RequestBody MultiValueMap<String, String> payload) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         ActionResponse actionResponse = mapper.readValue(payload.getFirst("payload"), ActionResponse.class);
         return slackFacade.vote(actionResponse)
                 .map(e -> ok().body(e));
+    }
+
+    private User getUser(MultiValueMap<String, String> params) {
+        return User.builder()
+                .withId(params.getFirst("user_id"))
+                .withName(params.getFirst("user_name"))
+                .build();
     }
 }

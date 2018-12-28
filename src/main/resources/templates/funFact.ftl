@@ -9,9 +9,11 @@
         <h2>Fact a fact!</h2>
 
         <p>
+            ${fact.id}<br>
             ${fact.author}<br>
             ${fact.title}<br>
             ${fact.funFact}<br>
+            ${fact.voteCount}<br>
         </p>
     </body>
 </html>

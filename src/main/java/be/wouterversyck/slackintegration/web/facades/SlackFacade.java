@@ -42,7 +42,7 @@ public class SlackFacade {
         try {
             actionValue = Action.ActionValue.valueOf(value);
         } catch (IllegalArgumentException e) {
-            throw new InvalidActionValueException(value);
+            return Mono.error(new InvalidActionValueException(value));
         }
 
         switch (actionValue) {

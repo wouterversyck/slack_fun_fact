@@ -10,10 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Data
 @Document(collection = "fun_facts")
@@ -32,7 +29,11 @@ public class FunFact {
     @JsonProperty("create_date")
     private Date createDate;
     @JsonIgnore
-    private List<Vote> votes;
+    private Set<Vote> votes;
+
+    public FunFact() {
+        this.votes = new HashSet<>();
+    }
 
     public int getVoteCount() {
         if(this.getVotes() == null) { return 0; }
@@ -57,11 +58,7 @@ public class FunFact {
                 .findFirst();
     }
     @JsonIgnore
-    public List<Vote> getVotes() {
-        if(this.votes == null) {
-            this.votes = new ArrayList<>();
-        }
-
+    public Set<Vote> getVotes() {
         return this.votes;
     }
 }

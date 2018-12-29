@@ -1,7 +1,7 @@
 package be.wouterversyck.slackintegration.web.controllers.viewControllers;
 
-import be.wouterversyck.slackintegration.model.funFact.FunFact;
 import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
+import be.wouterversyck.slackintegration.web.viewModels.dto.FunFactDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +27,7 @@ public class FunFactController {
 
     @GetMapping("")
     public String getForm(Model model) {
-        model.addAttribute("funFact", new FunFact());
+        model.addAttribute("funFact", new FunFactDto());
         return "funFactForm";
     }
 
@@ -39,12 +39,12 @@ public class FunFactController {
     }
 
     @PostMapping("")
-    public Mono<String> addFunFact(Model model, @Valid FunFact funFact, BindingResult bindingResult) {
+    public Mono<String> addFunFact(Model model, @Valid FunFactDto funFact, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             // TODO after bean validation fix, do something here
         }
 
-        return funFactService.save(funFact)
+        return funFactService.save(funFact.toFunFactModel())
             .map(e -> format("redirect:/view/funfact/%s", e.getId()));
     }
 }

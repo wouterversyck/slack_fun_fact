@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 public class User {
     private String id;
-    private String name;
 
     @JsonIgnore
     public static UserBuilder builder() {
@@ -17,7 +16,6 @@ public class User {
 
     public static class UserBuilder {
         private String id;
-        private String name;
 
         private UserBuilder() {}
 
@@ -26,15 +24,9 @@ public class User {
             return this;
         }
 
-        public UserBuilder withName(final String name) {
-            this.name = name;
-            return this;
-        }
-
         public User build() {
             User user = new User();
             user.setId(id);
-            user.setName(name);
 
             return user;
         }

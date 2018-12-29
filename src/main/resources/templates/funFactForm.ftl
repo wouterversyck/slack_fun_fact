@@ -1,9 +1,9 @@
+<#import "macros.ftl" as m>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
         <title>Fact fact fact fact fact</title>
-        <link href="/css/style.css" rel="stylesheet">
+        <@m.scriptsAndCssAndStuff />
     </head>
     <body>
     <h2>Add ad fact</h2>
@@ -20,5 +20,7 @@
             <br><br>
             <input type="submit" value="Submit">
         </form>
+
+        <@m.footer />
     </body>
 </html>

@@ -1,9 +1,9 @@
+<#import "macros.ftl" as m>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
         <title>Fact fact fact fact fact</title>
-        <link href="/css/style.css" rel="stylesheet">
+        <@m.scriptsAndCssAndStuff />
     </head>
     <body>
         <h2>Fact a fact!</h2>
@@ -15,5 +15,7 @@
             ${fact.funFact}<br>
             ${fact.voteCount}<br>
         </p>
+
+        <@m.footer />
     </body>
 </html>

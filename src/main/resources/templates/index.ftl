@@ -1,11 +1,14 @@
+<#import "macros.ftl" as m>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Welcome</title>
-        <link href="/css/style.css" rel="stylesheet">
+        <@m.scriptsAndCssAndStuff />
     </head>
     <body>
         <h1>Hello ${example}</h1>
         <a href="/view/funfact">Add fun fact</a>
+        
+        <@m.footer />
     </body>
 </html>

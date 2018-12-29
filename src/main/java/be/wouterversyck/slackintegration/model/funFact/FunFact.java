@@ -35,6 +35,11 @@ public class FunFact {
         this.votes = new HashSet<>();
     }
 
+    @JsonProperty("create_date_unix")
+    public long getCreateDateUnix() {
+        return createDate.getTime() / 1000;
+    }
+
     public int getVoteCount() {
         if(this.getVotes() == null) { return 0; }
 

@@ -28,7 +28,7 @@ public class SlackFunFactMessageConverter {
                                 .withText(funFact.getFunFact())
                                 .withCallbackId(funFact.getId())
                                 .withAuthorName(funFact.getAuthor())
-                                .withTimestamp(funFact.getCreateDate().getTime()/1000)
+                                .withTimestamp(funFact.getCreateDateUnix())
                                 .withColor(Attachment.Color.GREEN)
                                 .withFooter(format("Votes: %s", funFact.getVoteCount()))
                                 .withActions(getActions(funFact, user))

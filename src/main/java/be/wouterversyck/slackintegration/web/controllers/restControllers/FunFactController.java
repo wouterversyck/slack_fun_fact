@@ -17,6 +17,7 @@ public class FunFactController {
     public FunFactController(FunFactService funFactService) {
         this.funFactService = funFactService;
     }
+
     @GetMapping("/latest")
     public Mono<FunFact> getLatest() {
         return funFactService.getLatest();

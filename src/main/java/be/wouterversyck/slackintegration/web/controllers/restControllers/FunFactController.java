@@ -2,20 +2,24 @@ package be.wouterversyck.slackintegration.web.controllers.restControllers;
 
 import be.wouterversyck.slackintegration.model.funFact.FunFact;
 import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
+import be.wouterversyck.slackintegration.web.viewModels.dto.FunFactDto;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
+@Validated
 @RestController
 @RequestMapping("/funfact")
-public class FunFactController {
+public class FunFactController extends AbstractRestController {
     private FunFactService funFactService;
 
     public FunFactController(FunFactService funFactService) {
         this.funFactService = funFactService;
     }
+
     @GetMapping("/latest")
     public Mono<FunFact> getLatest() {
         return funFactService.getLatest();
@@ -42,7 +46,7 @@ public class FunFactController {
     }
 
     @PostMapping
-    public Mono<FunFact> addFunFact(@Valid @RequestBody FunFact funFact) {
-        return funFactService.add(funFact);
+    public Mono<FunFact> addFunFact(@RequestBody @Valid FunFactDto funFact) {
+        return funFactService.add(funFact.toFunFactModel());
     }
 }

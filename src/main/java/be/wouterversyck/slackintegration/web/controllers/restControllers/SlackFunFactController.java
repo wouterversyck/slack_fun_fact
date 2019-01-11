@@ -44,7 +44,6 @@ public class SlackFunFactController {
     private User getUser(MultiValueMap<String, String> params) {
         return User.builder()
                 .withId(params.getFirst("user_id"))
-                .withName(params.getFirst("user_name"))
                 .build();
     }
 }

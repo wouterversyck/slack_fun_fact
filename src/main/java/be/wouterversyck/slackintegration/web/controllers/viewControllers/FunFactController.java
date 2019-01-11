@@ -1,23 +1,21 @@
 package be.wouterversyck.slackintegration.web.controllers.viewControllers;
 
-import be.wouterversyck.slackintegration.model.funFact.FunFact;
 import be.wouterversyck.slackintegration.services.databaseServices.FunFactService;
+import be.wouterversyck.slackintegration.web.viewModels.dto.FunFactDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
 import static java.lang.String.format;
 
+@Validated
 @Controller("funFactViewController")
 @RequestMapping("view/funfact")
-public class FunFactController {
+public class FunFactController extends AbstractViewController{
 
     private FunFactService funFactService;
 
@@ -27,7 +25,7 @@ public class FunFactController {
 
     @GetMapping("")
     public String getForm(Model model) {
-        model.addAttribute("funFact", new FunFact());
+        model.addAttribute("funFact", new FunFactDto());
         return "funFactForm";
     }
 
@@ -39,12 +37,12 @@ public class FunFactController {
     }
 
     @PostMapping("")
-    public Mono<String> addFunFact(Model model, @Valid FunFact funFact, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            // TODO after bean validation fix, do something here
-        }
-
-        return funFactService.save(funFact)
-            .map(e -> format("redirect:/view/funfact/%s", e.getId()));
+    public Mono<String> addFunFact(@Valid Mono<FunFactDto> fact, Model model) {
+        return validate(
+                fact.map(FunFactDto::toFunFactModel)
+                    .flatMap(funFactService::save)
+                    .map(e -> format("redirect:/view/funfact/%s", e.getId())),
+                model,
+                "funFactForm");
     }
 }

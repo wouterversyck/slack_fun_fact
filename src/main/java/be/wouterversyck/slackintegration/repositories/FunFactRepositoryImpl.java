@@ -32,6 +32,6 @@ public class FunFactRepositoryImpl implements FunFactRepositoryCustom {
         query.addCriteria(Criteria.where("_id").is(new ObjectId(funFactId)).and("votes.user._id").is(userId));
         query.fields().include("name").include("id").position("votes", 1);
         return reactiveMongoTemplate.findOne(query, FunFact.class)
-                .map(e -> e.getVotes().get(0));
+                .map(e -> e.getVotes().iterator().next());
     }
 }

@@ -28,7 +28,7 @@ public class SlackFunFactMessageConverter {
                                 .withText(funFact.getFunFact())
                                 .withCallbackId(funFact.getId())
                                 .withAuthorName(funFact.getAuthor())
-                                .withTimestamp(funFact.getCreateDate().getTime())
+                                .withTimestamp(funFact.getCreateDateUnix())
                                 .withColor(Attachment.Color.GREEN)
                                 .withFooter(format("Votes: %s", funFact.getVoteCount()))
                                 .withActions(getActions(funFact, user))
@@ -44,7 +44,7 @@ public class SlackFunFactMessageConverter {
                         Attachment.builder()
                                 .withText(joke.getJoke())
                                 .withCallbackId("do_nothing")
-                                .withTimestamp(new Date().getTime())
+                                .withTimestamp(new Date().getTime()/1000)
                                 .withColor(Attachment.Color.GREEN)
                                 .withAction(
                                         Action.builder()

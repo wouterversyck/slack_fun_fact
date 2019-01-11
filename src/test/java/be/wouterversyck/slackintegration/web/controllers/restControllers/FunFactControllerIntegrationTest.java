@@ -19,7 +19,6 @@ import static org.apache.commons.lang3.time.DateUtils.isSameDay;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;
@@ -56,7 +55,7 @@ public class FunFactControllerIntegrationTest {
         assertTrue(isSameDay(response.getCreateDate(), new Date()));
         assertThat(response.getId(), not(isEmptyString()));
         assertThat(response.getVoteCount(), equalTo(0));
-        assertThat(response.getVotes(), is(not(empty())));
+        assertTrue(response.getVotes().isEmpty());
         assertThat(response.getTitle(), equalTo(funFact.getTitle()));
         assertThat(response.getFunFact(), equalTo(funFact.getFunFact()));
     }
@@ -74,8 +73,8 @@ public class FunFactControllerIntegrationTest {
                 .post("/funfact")
                 .then()
                 .statusCode(400)
-                .body("status", is("400"))
-                .body("path", is("/funfact/"))
+                .body("status", is(400))
+                .body("path", is("/funfact"))
                 .body("error", is("Bad Request"))
                 .body("message", containsString("fun_fact"))
                 .body("message", containsString("empty"));

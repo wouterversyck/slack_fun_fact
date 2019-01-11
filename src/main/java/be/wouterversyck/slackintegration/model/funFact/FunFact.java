@@ -2,6 +2,7 @@ package be.wouterversyck.slackintegration.model.funFact;
 
 import be.wouterversyck.slackintegration.model.common.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,9 @@ import java.util.*;
 
 @Data
 @Document(collection = "fun_facts")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FunFact {
+
     @Id
     private String id;
     private String author;
@@ -33,6 +36,7 @@ public class FunFact {
 
     public FunFact() {
         this.votes = new HashSet<>();
+        this.createDate = new Date();
     }
 
     @JsonProperty("create_date_unix")
@@ -54,6 +58,7 @@ public class FunFact {
 
         return votes;
     }
+
     @JsonIgnore
     public Optional<Vote> userHasVoted(User user) {
         if(votes == null) { return Optional.empty(); }
@@ -62,6 +67,7 @@ public class FunFact {
                 .filter(e -> e.getUser().equals(user))
                 .findFirst();
     }
+
     @JsonIgnore
     public Set<Vote> getVotes() {
         return this.votes;

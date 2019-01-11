@@ -66,4 +66,41 @@ public class FunFact {
     public Set<Vote> getVotes() {
         return this.votes;
     }
+
+    @JsonIgnore
+    public static FunFactBuilder builder() {
+        return new FunFactBuilder();
+    }
+
+    public static class FunFactBuilder {
+        private String author;
+        private String funFact;
+        private String title;
+
+        private FunFactBuilder() {}
+
+        public FunFactBuilder withAuthor(String author) {
+            this.author = author;
+            return this;
+        }
+
+        public FunFactBuilder withFunfact(String funFact) {
+            this.funFact = funFact;
+            return this;
+        }
+
+        public FunFactBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public FunFact build() {
+            FunFact funFact = new FunFact();
+            funFact.setAuthor(author);
+            funFact.setTitle(title);
+            funFact.setFunFact(this.funFact);
+
+            return funFact;
+        }
+    }
 }
